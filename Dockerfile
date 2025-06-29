@@ -16,7 +16,7 @@ RUN wget -qO- https://github.com/allure-framework/allure2/releases/latest/downlo
     && unzip /tmp/allure.zip -d /opt/ \
     && rm /tmp/allure.zip
 
-ENV PATH="/opt/allure-2.21.0/bin:${PATH}"
+ENV PATH="/opt/allure-2.34.1/bin:${PATH}"
 
 COPY . .
 
