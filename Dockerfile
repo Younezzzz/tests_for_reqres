@@ -1,10 +1,20 @@
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
+# Устанавливаем зависимости и утилиты
+RUN apt-get update && apt-get install -y wget unzip openjdk-11-jre-headless && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Устанавливаем Allure CLI
+RUN wget -qO- https://github.com/allure-framework/allure2/releases/latest/download/allure-2.21.0.zip > /tmp/allure.zip \
+    && unzip /tmp/allure.zip -d /opt/ \
+    && rm /tmp/allure.zip
+
+ENV PATH="/opt/allure-2.21.0/bin:${PATH}"
 
 COPY . .
 
-CMD ["pytest", "-s", "-v", "tests", "--alluredir=alluress"]
+CMD pytest tests --alluredir=allure-results && allure generate allure-results --clean -o allure-report
