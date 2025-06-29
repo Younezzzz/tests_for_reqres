@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["pytest -s -v tests alluredir=alluress"]
+CMD ["pytest -s -v tests --alluredir=alluress"]
