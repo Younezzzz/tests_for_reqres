@@ -28,11 +28,10 @@ jobs:
         pytest --alluredir=allure-results
 
     - name: Generate Allure report
-      run: |
-        sudo apt-get update && sudo apt-get install -y openjdk-11-jre
-        wget -qO- https://github.com/allure-framework/allure2/releases/latest/download/allure-2.34.1.zip > allure.zip
-        unzip -q allure.zip -d ./allure
-        ./allure/bin/allure generate allure-results --clean -o allure-report
+      uses: mikepenz/allure-report-action@v2
+      with:
+        results: 'allure-results'
+        report: 'allure-report'
 
     - name: Upload Allure report artifact
       uses: actions/upload-artifact@v4
