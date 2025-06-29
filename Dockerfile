@@ -1,14 +1,22 @@
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-RUN sudo apt install allure
-RUN pytest -s -v tests --alluredir=alluress
-RUN allure serve alluress
+# Устанавливаем зависимости и утилиты
+RUN apt-get update && apt-get install -y wget unzip openjdk-11-jre-headless && rm -rf /var/lib/apt/lists/*
 
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Устанавливаем Allure Commandline
+RUN wget -qO- https://github.com/allure-framework/allure2/releases/latest/download/allure-2.21.0.zip > /tmp/allure.zip \
+    && unzip /tmp/allure.zip -d /opt/ \
+    && rm /tmp/allure.zip
+
+ENV PATH="/opt/allure-2.21.0/bin:${PATH}"
 
 COPY . .
 
-CMD ["python"]
+# Команда запуска тестов с генерацией allure результатов и отчёта
+CMD pytest --alluredir=allure-results && allure generate allure-results --clean -o allure-report && tail -f /dev/null
