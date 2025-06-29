@@ -28,7 +28,7 @@ jobs:
         pytest --alluredir=allure-results
 
     - name: Generate Allure report
-      uses: qa-toolkit/allure-report-action@v2
+      uses: qa-toolkit/allure-report-action
       with:
         results: 'allure-results'
         report: 'allure-report'
