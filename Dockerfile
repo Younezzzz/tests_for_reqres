@@ -2,7 +2,10 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-RUN apt-get update \
+RUN echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > /etc/apt/sources.list \
+    && echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list \
+    && echo "deb http://deb.debian.org/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list \
+    && apt-get update \
     && apt-get install -y --no-install-recommends wget unzip openjdk-11-jre-headless \
     && rm -rf /var/lib/apt/lists/*
 
