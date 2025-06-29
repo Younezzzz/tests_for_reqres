@@ -1,20 +1,10 @@
-jobs:
-  run-tests:
-    runs-on: ubuntu-latest
+FROM python:3.11-slim
 
-    container:
-      image: python:3.11  # Docker-образ, внутри которого будет выполняться job
-      options: --user root  # необязательно, но полезно для установки пакетов
+WORKDIR /app
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
+COPY . .
 
-      - name: Run all tests
-        run: |
-          pytest tests/ --maxfail=1 --disable-warnings -v
+CMD ["python"]
