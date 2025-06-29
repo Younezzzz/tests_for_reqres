@@ -12,7 +12,7 @@ RUN echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > /et
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN wget -qO- https://github.com/allure-framework/allure2/releases/latest/download/allure-2.21.0.zip > /tmp/allure.zip \
+RUN wget -qO- https://github.com/allure-framework/allure2/releases/latest/download/allure-2.34.1.zip > /tmp/allure.zip \
     && unzip /tmp/allure.zip -d /opt/ \
     && rm /tmp/allure.zip
 
