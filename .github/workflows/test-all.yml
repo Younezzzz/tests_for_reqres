@@ -31,5 +31,5 @@ jobs:
         if: "github.event.inputs.deployment_target == 'danger_test'"
         run: pytest tests -m danger
       - name: Run safety tests
-        if: "github.event.inputs.deployment_target == safe_test"
+        if: "github.event.inputs.deployment_target == safety_test"
         run: pytest tests -m safe
