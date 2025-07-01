@@ -1,7 +1,16 @@
 name: Auto tests
 
 on:
-  push
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: Choose target
+        required: true
+        default:
+        type: choice
+        options:
+          - danger_test
+          - safety_test
 
 jobs:
   test:
@@ -18,5 +27,9 @@ jobs:
         run: sudo apt-get install google-chrome-stable
       - name: Setup requirements
         run: pip install -r requirements.txt
-      - name: Run tests
-        run: pytest tests
+      - name: Run danger tests
+        if: "github.event.inputs.deployment_target == 'danger_test'"
+        run: pytest tests -m danger
+      - name: Run safety tests
+        if: "github.event.inputs.deployment_target
+        run: pytest tests -m safe
